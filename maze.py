@@ -1,6 +1,11 @@
+import colorama
+from termcolor import colored
 import random
 from time import sleep
 from os import system
+
+
+colorama.init()
 
 raw = int(input())
 column = int(input())
@@ -95,7 +100,6 @@ while True:
     
     if reached_the_end(end, wave_list) != [-1, -1]:
         i, j = reached_the_end(end, wave_list)
-        print(i, j)
         break
 
 
@@ -122,7 +126,7 @@ while k > 1:
 
 print_maze(maze)
 for i in range(len(the_path) - 1, 0, -1):
-    sleep(7)
+    sleep(3)
     system("cls || clear")
     maze[the_path[i][0]][the_path[i][1]] = "0"
     maze[the_path[i - 1][0]][the_path[i - 1][1]] = "*"

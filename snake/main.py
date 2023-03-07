@@ -1,10 +1,14 @@
+from pynput import keyboard
 import random
 import stddraw
 import sys
 import stdarray
 import stdio
+import pygame
 
 import graphcom
+
+pygame.init()
 
 n = int(input("Размер поля "))
 
@@ -24,48 +28,78 @@ def print_field(n):
             print_square(i, j, stddraw.BLUE)
 
 
+def print_apple():
+    x = random.randint(2, n - 2)
+    y = random.randint(2, n - 2)
+    if a[x][y] == False:
+        print_square(x, y, stddraw.RED)
+
+    return [x, y]
+
 print_field(n)
 
 print_square(x, y, stddraw.GREEN)
+
+k_x = 0
+k_y = 0
+
+x_apple, y_apple = print_apple()
+snake_cords_to_draw = []
 while (x > 0) and (x < n-1) and (y > 0) and (y < n-1):
-    a[x][y] = True
-    # Проверить туnик и сделать случайный ход .
-    print_square(x, y, stddraw.BLACK)
-    if a[x-1][y] and a[x+1][y] and a[x][y-1] and a[x][y+1]:
-        #Эвакуация
-        x1 = x
-        y1 = y
-        while a[x1][y1]:
-            x1 = random.randrange(0, n)
-            y1 = random.randrange(0, n)
-        stX = random.randint(1, 4)
-        if stX == 1:
-            stX = 0
-            stY = random.randrange(0, n)
-        elif stX == 2:
-            stX = n-1
-            stY = random.randrange(0, n)
-        elif stX == 3:
-            stX = random.randrange(0, n)
-            stY = 0
+
+    if stddraw.hasNextKeyTyped():
+        direction = stddraw.nextKeyTyped()
+        if direction == 'w':
+            k_x = 0
+            k_y = 1
+        if direction == 's':
+            k_x = 0
+            k_y = -1
+        if direction == 'a':
+            k_x = -1
+            k_y = 0
+        if direction == 'd':
+            k_x = 1
+            k_y = 0
+
+    x += k_x
+    y += k_y
+
+    if k_x + k_y != 0:
+        snake_cords_to_draw.append([x, y])
+        a[x][y] = True
+
+    for snake_x, snake_y in snake_cords_to_draw:
+        print_square(snake_x, snake_y, stddraw.GREEN)
+    
+    if len(snake_cords_to_draw) > 1:
+        if not (x == x_apple and y == y_apple):
+            old_x, old_y = snake_cords_to_draw[0]
+            a[old_x][old_y] = False
+            print_square(old_x, old_y, stddraw.BLUE)
+            snake_cords_to_draw = snake_cords_to_draw[1:]
         else:
-            stX = random.randrange(0, n)
-            stY = n-1
-        graphcom.roadTo(stX, stY, x, y, n)
-        graphcom.roadTo(x, y, x1, y1, n)
+            x_apple, y_apple = print_apple()
+    
 
-        x = x1
-        y = y1
-        continue
+    
 
-    r = random.randrange(1, 5)
-    if r == 1 and (not a[x+1][y]):
-        x += 1
-    elif r == 2 and (not a[x-1][y]):
-        x -= 1
-    elif r == 3 and (not a[x][y+1]):
-        y += 1
-    elif r == 4 and (not a[x][y-1]):
-        y -= 1
-    print_square(x, y, stddraw.GREEN)
+
+    # a[x][y] = True
+    # a[x - k_x][y - k_y] = False
+    #print_square(x, y, stddraw.BLACK)
+
+    # if a[x-1][y] and a[x+1][y] and a[x][y-1] and a[x][y+1]:
+    #     break
+
+
+    # print_square(x - k_x, y - k_y, stddraw.BLUE)
+    # print_square(x, y, stddraw.GREEN)
+
+
+
+    
+
     stddraw.show(100)
+    
+    

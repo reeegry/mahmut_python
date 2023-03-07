@@ -31,6 +31,10 @@ def print_field(n):
 def print_apple():
     x = random.randint(2, n - 2)
     y = random.randint(2, n - 2)
+    while a[x][y] == True:
+        x = random.randint(2, n - 2)
+        y = random.randint(2, n - 2)
+        
     if a[x][y] == False:
         print_square(x, y, stddraw.RED)
 
@@ -38,32 +42,34 @@ def print_apple():
 
 print_field(n)
 
-print_square(x, y, stddraw.GREEN)
-
 k_x = 0
 k_y = 0
 
 x_apple, y_apple = print_apple()
-snake_cords_to_draw = []
+snake_cords_to_draw = [[x, y]]
+
 while (x > 0) and (x < n-1) and (y > 0) and (y < n-1):
 
     if stddraw.hasNextKeyTyped():
         direction = stddraw.nextKeyTyped()
-        if direction == 'w':
+        if direction == 'w' and k_y != -1:
             k_x = 0
             k_y = 1
-        if direction == 's':
+        if direction == 's' and k_y != 1:
             k_x = 0
             k_y = -1
-        if direction == 'a':
+        if direction == 'a' and k_x != 1:
             k_x = -1
             k_y = 0
-        if direction == 'd':
+        if direction == 'd' and k_x != -1:
             k_x = 1
             k_y = 0
 
     x += k_x
     y += k_y
+
+    if a[x][y] == True:
+        break
 
     if k_x + k_y != 0:
         snake_cords_to_draw.append([x, y])
@@ -80,24 +86,6 @@ while (x > 0) and (x < n-1) and (y > 0) and (y < n-1):
             snake_cords_to_draw = snake_cords_to_draw[1:]
         else:
             x_apple, y_apple = print_apple()
-    
-
-    
-
-
-    # a[x][y] = True
-    # a[x - k_x][y - k_y] = False
-    #print_square(x, y, stddraw.BLACK)
-
-    # if a[x-1][y] and a[x+1][y] and a[x][y-1] and a[x][y+1]:
-    #     break
-
-
-    # print_square(x - k_x, y - k_y, stddraw.BLUE)
-    # print_square(x, y, stddraw.GREEN)
-
-
-
     
 
     stddraw.show(100)

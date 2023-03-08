@@ -2,13 +2,22 @@ from math import log, exp, factorial
 
 
 def binominal(k, n, p):
-    x = k * log(p) + (n - k) * log(1 - p) + log(factorial(n)) - log(factorial(k)) - log(factorial(n - k))
+    log_k_n_f = 0
+    for i in range(k + 1, n + 1):
+        log_k_n_f += log(i)
+
+    log_n_k_f = 0
+    for i in range(1, n - k + 1):
+        log_n_k_f += log(i)
+
+    x = k * log(p) + (n - k) * log(1 - p) + log_k_n_f - log_n_k_f
     return(exp(x))
 
 
-n = 2000
+n = int(input())
+p = float(input())
 s = 0
-for i in range(0, n + 1):
-    s += binominal(i, n, 0.4)
+for k in range(0, n + 1):
+    s += binominal(k, n, p)
 
 print(s)

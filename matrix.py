@@ -40,5 +40,36 @@ for i in range(1, columns_amount):
 
 print(max_)
 
+k = 0
+for i in range(1, raws_amount + 1):
+    for j in range(1, columns_amount + 1):
+        k += 1
+        if k == columns_amount:
+            print(matrix[j][i])
+            k = 0
+        else:
+            print(matrix[j][i], end=' ')
+
+#----------------------
+
+matrix_str = [[str(matrix[j][i]) for i in range(0, raws_amount + 2)] for j in range(0, columns_amount + 2)]
+
+
+print(matrix_str)
+
+k = 0
+for i in range(1, raws_amount + 1):
+    for j in range(1, columns_amount + 1):
+        k += 1
+        if not (str(j) + str(i) in indexes):
+           matrix_str[j][i] = '*'
+            
+        if k == columns_amount:
+            print(matrix_str[j][i])
+            k = 0
+        else:
+            print(matrix_str[j][i], end=' ')
+
+
 
 

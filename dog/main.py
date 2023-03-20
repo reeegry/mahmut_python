@@ -15,7 +15,7 @@ y = n // 2
 
 def print_square(x, y, color):
     stddraw.setPenColor(color)
-    stddraw.square(x / (n - 1), y / (n - 1), 1 / (3 * (n - 1)) )
+    stddraw.square(x / (n - 1), y / (n - 1), 1 / (3 * (n - 1)))
 
 
 def print_field(n):

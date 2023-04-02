@@ -10,15 +10,21 @@ def tree(branchLen,t):
     if branchLen > 5:
         size = branchLen // 10
         t.pensize(size)
-        angle = rand_angle(45)
+        angle = rand_angle(30)
         t.forward(branchLen)
         t.right(angle)
         len_branch = random.triangular(0.7, 0.9)
-        tree(branchLen * len_branch, t)
+        if branchLen <= 15:
+            tree(branchLen - 5, t)
+        else:
+            tree(branchLen * len_branch, t)
         t.left(angle * 2)
-        tree(branchLen * len_branch,t)
+        if branchLen <= 15:
+            tree(branchLen - 5, t)
+        else:
+            tree(branchLen * len_branch,t)
         chance_leaf = random.randrange(1, 100)
-        if branchLen <= tree_hight // 10 and chance_leaf <= 50:
+        if branchLen <= tree_hight // 5 and chance_leaf <= 50:
             color_1 = random.randrange(55, 90)
             color_2 = random.randrange(100, 210)
             color_3 = random.randrange(50, 68)
@@ -58,7 +64,7 @@ def main():
     t.backward(100)
     t.down()
     t.color(101, 67, 33)
-    tree(75,t)
+    tree(tree_hight,t)
     myWin.exitonclick()
 
 main()
